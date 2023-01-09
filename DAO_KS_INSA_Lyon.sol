@@ -52,6 +52,11 @@ contract DAO_KS_INSA_Lyon is KSIL{
 
     //le vote a lieu, le créateur ne peut pas voter
     function voter(uint _propId, uint16 _nbKIL, bool _choix) public {
+        //Le créateur ne peut pas voter
+        if (propositions[_propId].createur == address(this)) {
+            return;
+        }
+        //Ajout des pour/contre et dépense des jetons de l'appelant
         transfer(address(this), _nbKIL);
         if (_choix) {
             propositions[_propId].pour += _nbKIL;
@@ -59,5 +64,4 @@ contract DAO_KS_INSA_Lyon is KSIL{
             propositions[_propId].contre += _nbKIL;
         }
     }
-
 }
