@@ -22,6 +22,8 @@ contract DAO_KS_INSA_Lyon is KSIL{
     
     address master = selectionMaster();
 
+    mapping(string => address) nomToAddress;
+
     constructor() {
         propositions.push(Proposition({
             createur: msg.sender,
@@ -29,7 +31,7 @@ contract DAO_KS_INSA_Lyon is KSIL{
             id: 0,
             dateDeCreation: block.timestamp,
             pour: 2,
-            contre: 1
+            contre: 1,
             status : true
         }));
         _propCompteur += 1;
@@ -44,14 +46,14 @@ contract DAO_KS_INSA_Lyon is KSIL{
             id: _propCompteur,
             dateDeCreation: block.timestamp,
             pour: 0,
-            contre: 0
+            contre: 0,
             status : true
         }));
         _propCompteur += 1;
     }
     
     modifier master() {
-        require(msg.sender == master );
+        require(msg.sender == master);
         _;
     }
 
@@ -59,7 +61,7 @@ contract DAO_KS_INSA_Lyon is KSIL{
     function selectionMaster() public {}
 
     //le master attribue les votes à la fin de la séance
-    function attributionKIL(string nom, uint256 amount) public master {
+    function attributionKIL(string memory nom, uint256 amount) public master {
         _mint(nomToAddress[nom], amount);
     }
 
